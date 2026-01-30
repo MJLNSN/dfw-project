@@ -1,0 +1,46 @@
+# DFW Property Search Platform - Docker Compose
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://takehome:***REMOVED***@108.61.159.122:13432/gis
+      - AWS_REGION=us-east-2
+      - COGNITO_USER_POOL_ID=***REMOVED***
+      - COGNITO_CLIENT_ID=***REMOVED***
+      - ALLOWED_ORIGINS=http://localhost:3000,http://localhost:5173
+      - DEBUG=True
+      - LOG_LEVEL=INFO
+    volumes:
+      - backend-data:/app/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+    environment:
+      - VITE_API_URL=http://localhost:8000
+      - VITE_MAPBOX_TOKEN=***REMOVED***
+      - VITE_AWS_REGION=us-east-2
+      - VITE_COGNITO_USER_POOL_ID=***REMOVED***
+      - VITE_COGNITO_CLIENT_ID=***REMOVED***
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  backend-data:
+

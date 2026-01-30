@@ -39,6 +39,7 @@ A full-stack real estate property search and visualization platform for the Dall
 - Zustand + TanStack Query (state management)
 - React Router (routing)
 - Amazon Cognito Identity JS (authentication)
+- Vitest + Testing Library (testing)
 
 ### Backend
 - Python FastAPI
@@ -46,6 +47,12 @@ A full-stack real estate property search and visualization platform for the Dall
 - SQLAlchemy (ORM)
 - Docker
 - JWT Authentication (Cognito token validation)
+- Pytest (testing)
+
+### CI/CD
+- GitHub Actions (automated testing and deployment)
+- Vercel (frontend deployment)
+- Docker Compose (local development)
 
 ## Project Structure
 
@@ -313,6 +320,68 @@ The application uses the existing `takehome.dallas_parcels` table:
    - `COGNITO_CLIENT_ID` - Cognito Client ID
    - `ALLOWED_ORIGINS` - Frontend URL for CORS
 
+## Testing
+
+### Backend Tests
+
+Run all backend tests:
+```bash
+cd backend
+pytest tests/ -v
+```
+
+Run specific test file:
+```bash
+pytest tests/test_parcels.py -v
+```
+
+Run with coverage:
+```bash
+pytest tests/ --cov=app --cov-report=html
+```
+
+Test categories:
+- **Unit Tests** (`test_parcels.py`) - API endpoint tests with various filters
+- **Integration Tests** (`test_integration.py`) - End-to-end workflow tests
+
+### Frontend Tests
+
+Run all frontend tests:
+```bash
+cd frontend
+npm test
+```
+
+Run tests in watch mode:
+```bash
+npm run test:watch
+```
+
+Run tests with UI:
+```bash
+npm run test:ui
+```
+
+Run with coverage:
+```bash
+npm run test:coverage
+```
+
+Test categories:
+- **Store Tests** - Zustand state management tests
+- **Component Tests** - React component unit tests (if added)
+
+### CI/CD Pipeline
+
+The project uses GitHub Actions for continuous integration:
+
+- **Automatic Testing**: All tests run on push to `main` or `develop` branches
+- **Pull Request Checks**: Tests must pass before merging
+- **Code Quality**: Linting and formatting checks
+- **Coverage Reports**: Test coverage uploaded to Codecov
+
+View the CI/CD workflow: `.github/workflows/ci.yml`
+
 ## Troubleshooting
 
 ### Frontend Issues
@@ -342,6 +411,11 @@ uvicorn app.main:app --reload --port 8000
   - `fonts:read`
   - `datasets:read`
 - Create a new token at: https://account.mapbox.com/access-tokens/
+
+### Test Failures
+- Ensure database is running and accessible
+- Check environment variables are set correctly
+- For integration tests, verify API endpoints are responding
 
 ## License
 

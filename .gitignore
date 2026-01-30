@@ -1,0 +1,48 @@
+# Dependencies
+node_modules/
+venv/
+__pycache__/
+*.pyc
+.Python
+
+# Build output
+dist/
+build/
+*.egg-info/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# Logs
+*.log
+logs/
+
+# Testing
+coverage/
+.pytest_cache/
+htmlcov/
+
+# Data files (user preferences)
+backend/data/
+
+# Docker
+.docker/
+
+# Misc
+*.bak
+*.tmp
+.cache/
+
+# Project-specific files (should not be committed)
+Take Home Project.md
+PRODUCT_REQUIREMENTS_DOCUMENT.md
+
