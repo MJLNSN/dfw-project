@@ -10,10 +10,16 @@ dist/
 build/
 *.egg-info/
 
-# Environment files
+# Environment files - NEVER COMMIT THESE!
 .env
 .env.local
 .env.*.local
+*.env
+backend/.env
+frontend/.env
+frontend/.env.local
+backend.env
+vercel.env.production
 
 # IDE
 .idea/
@@ -36,6 +42,7 @@ backend/data/
 
 # Docker
 .docker/
+docker-compose.override.yml
 
 # Misc
 *.bak
