@@ -11,12 +11,14 @@ class Settings(BaseSettings):
     """Application settings loaded from environment variables."""
     
     # Database Configuration
-    database_url: str = "postgresql://takehome:***REMOVED***@108.61.159.122:13432/gis"
+    # Required - must be set in environment
+    database_url: str
     
     # AWS Cognito Configuration
+    # Required for JWT token verification
     aws_region: str = "us-east-2"
-    cognito_user_pool_id: str = "***REMOVED***"
-    cognito_client_id: str = "***REMOVED***"
+    cognito_user_pool_id: str  # Required - no default
+    cognito_client_id: str  # Required - no default
     
     # CORS Configuration
     allowed_origins: str = "http://localhost:3000,http://localhost:5173,http://localhost:5174,https://dfw-project.vercel.app"

@@ -3,18 +3,34 @@
  * Loads values from environment variables
  */
 
+// Validate required environment variables
+const requiredEnvVars = [
+  'VITE_MAPBOX_TOKEN',
+  'VITE_COGNITO_USER_POOL_ID',
+  'VITE_COGNITO_CLIENT_ID',
+] as const
+
+// Check for missing required env vars in production
+if (import.meta.env.PROD) {
+  for (const envVar of requiredEnvVars) {
+    if (!import.meta.env[envVar]) {
+      console.error(`Missing required environment variable: ${envVar}`)
+    }
+  }
+}
+
 export const config = {
   // API Configuration
   apiUrl: import.meta.env.VITE_API_URL || 'http://localhost:8000',
   
-  // Mapbox Configuration
-  mapboxToken: import.meta.env.VITE_MAPBOX_TOKEN || '***REMOVED***',
+  // Mapbox Configuration - Required
+  mapboxToken: import.meta.env.VITE_MAPBOX_TOKEN || '',
   
-  // AWS Cognito Configuration
+  // AWS Cognito Configuration - Required for authentication
   aws: {
     region: import.meta.env.VITE_AWS_REGION || 'us-east-2',
-    userPoolId: import.meta.env.VITE_COGNITO_USER_POOL_ID || '***REMOVED***',
-    clientId: import.meta.env.VITE_COGNITO_CLIENT_ID || '***REMOVED***',
+    userPoolId: import.meta.env.VITE_COGNITO_USER_POOL_ID || '',
+    clientId: import.meta.env.VITE_COGNITO_CLIENT_ID || '',
   },
   
   // Map default settings (Dallas-Fort Worth area)
