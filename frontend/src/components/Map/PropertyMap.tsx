@@ -15,8 +15,11 @@ import type { ParcelFeature } from '../../types'
 // Set Mapbox token
 mapboxgl.accessToken = config.mapboxToken
 
-console.log('🗺️ Mapbox Token:', mapboxgl.accessToken ? 'Set ✓' : 'Missing ✗')
-console.log('🗺️ Config:', config)
+// Only log once on module load
+const isDev = import.meta.env.DEV
+if (isDev) {
+  console.log('🗺️ Mapbox Token:', mapboxgl.accessToken ? 'Configured ✓' : 'Missing ✗')
+}
 
 export default function PropertyMap() {
   const mapContainer = useRef<HTMLDivElement>(null)
@@ -83,7 +86,9 @@ export default function PropertyMap() {
   useEffect(() => {
     if (!mapContainer.current || map.current) return
 
-    console.log('🗺️ Initializing map with style:', MAP_STYLES[mapStyle])
+    if (isDev) {
+      console.log('🗺️ Initializing map with style:', MAP_STYLES[mapStyle])
+    }
 
     try {
       map.current = new mapboxgl.Map({
@@ -100,7 +105,9 @@ export default function PropertyMap() {
 
       // Set initial bounds
       map.current.on('load', () => {
-        console.log('✅ Map loaded successfully!')
+        if (isDev) {
+          console.log('✅ Map loaded successfully')
+        }
         setMapLoaded(true)
         updateBounds()
       })
@@ -110,9 +117,9 @@ export default function PropertyMap() {
         updateBounds()
       })
 
-      // Error handling
+      // Error handling - always log errors
       map.current.on('error', (e) => {
-        console.error('❌ Map error:', e)
+        console.error('❌ Map error:', e.error?.message || e)
       })
 
       // Cleanup
@@ -131,7 +138,9 @@ export default function PropertyMap() {
   // Update map style
   useEffect(() => {
     if (map.current && mapLoaded) {
-      console.log('🎨 Changing map style to:', mapStyle)
+      if (isDev) {
+        console.log('🎨 Changing map style to:', mapStyle)
+      }
       map.current.setStyle(MAP_STYLES[mapStyle])
     }
   }, [mapStyle, mapLoaded])
@@ -155,7 +164,9 @@ export default function PropertyMap() {
         // Filter features with valid geometry
         const validFeatures = data.features.filter((f) => f.geometry !== null)
 
-        console.log(`📍 Adding ${validFeatures.length} parcels to map`)
+        if (isDev) {
+          console.log(`📍 Adding ${validFeatures.length} parcels to map`)
+        }
 
         // Add source - use type assertion for Mapbox compatibility
         mapInstance.addSource('parcels', {
