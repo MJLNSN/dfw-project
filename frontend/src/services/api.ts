@@ -146,12 +146,32 @@ export const deletePreference = async (id: string): Promise<void> => {
 // ============================================
 
 /**
- * Export parcels to CSV
+ * Center point for location-based filtering
  */
-export const exportToCsv = async (filters?: FilterCriteria): Promise<Blob> => {
+export interface ExportCenterPoint {
+  longitude: number
+  latitude: number
+  address?: string
+}
+
+/**
+ * Export options for filtered property data
+ * ST-05: Users export filtered results into a CSV format
+ */
+export interface ExportOptions {
+  filters?: FilterCriteria
+  centerPoint?: ExportCenterPoint
+  maxDistance?: number  // in miles (0.01-50)
+  sortBy?: 'distance' | 'price_asc' | 'price_desc' | 'size_asc' | 'size_desc'
+}
+
+/**
+ * Export filtered properties to CSV
+ */
+export const exportToCsv = async (options: ExportOptions = {}): Promise<Blob> => {
   const response = await api.post(
     '/api/v1/export/csv',
-    { filters },
+    options,
     {
       responseType: 'blob',
     }

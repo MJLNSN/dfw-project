@@ -33,6 +33,13 @@ interface MapState {
   showClusters: boolean
   showHeatmap: boolean
   
+  // Last searched location (for export center point)
+  lastSearchedLocation: {
+    longitude: number
+    latitude: number
+    address: string
+  } | null
+  
   // Actions
   setCenter: (center: [number, number]) => void
   setZoom: (zoom: number) => void
@@ -45,6 +52,7 @@ interface MapState {
   setSelectedParcel: (parcel: ParcelFeature | null) => void
   setHoveredParcelId: (id: string | null) => void
   setMapStyle: (style: MapState['mapStyle']) => void
+  setLastSearchedLocation: (location: MapState['lastSearchedLocation']) => void
   toggleClusters: () => void
   toggleHeatmap: () => void
   clearParcels: () => void
@@ -67,6 +75,8 @@ export const useMapStore = create<MapState>()((set) => ({
   mapStyle: 'streets',  // Changed from 'dark' to 'streets' for better visibility
   showClusters: true,
   showHeatmap: false,
+  
+  lastSearchedLocation: null,
 
   setCenter: (center) => set({ center }),
   setZoom: (zoom) => set({ zoom }),
@@ -88,6 +98,7 @@ export const useMapStore = create<MapState>()((set) => ({
   setSelectedParcel: (selectedParcel) => set({ selectedParcel }),
   setHoveredParcelId: (hoveredParcelId) => set({ hoveredParcelId }),
   setMapStyle: (mapStyle) => set({ mapStyle }),
+  setLastSearchedLocation: (lastSearchedLocation) => set({ lastSearchedLocation }),
   toggleClusters: () => set((state) => ({ showClusters: !state.showClusters })),
   toggleHeatmap: () => set((state) => ({ showHeatmap: !state.showHeatmap })),
   

@@ -3,6 +3,7 @@
  */
 import { useEffect, useRef, useCallback, useState } from 'react'
 import mapboxgl from 'mapbox-gl'
+import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder'
 import { useQuery } from '@tanstack/react-query'
 import { useMapStore, MAP_STYLES } from '../../store/mapStore'
 import { useFilterStore } from '../../store/filterStore'
@@ -11,6 +12,9 @@ import { searchParcels } from '../../services/api'
 import config from '../../config'
 import ParcelPopup from './ParcelPopup'
 import type { ParcelFeature } from '../../types'
+
+// Import Geocoder CSS
+import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
 
 // Set Mapbox token
 mapboxgl.accessToken = config.mapboxToken
@@ -41,6 +45,7 @@ export default function PropertyMap() {
     setBounds,
     bounds,
     setSelectedParcel,
+    setLastSearchedLocation,
   } = useMapStore()
 
   // Build bbox string from bounds
@@ -100,8 +105,64 @@ export default function PropertyMap() {
         maxZoom: config.map.maxZoom,
       })
 
-      // Add navigation controls
+      // Add navigation controls (zoom +/-)
       map.current.addControl(new mapboxgl.NavigationControl(), 'top-right')
+
+      // Add scale control (比例尺)
+      map.current.addControl(
+        new mapboxgl.ScaleControl({
+          maxWidth: 150,
+          unit: 'imperial', // 使用英制单位（英里/英尺），适合美国
+        }),
+        'bottom-right'
+      )
+
+      // Add geolocate control (用户定位按钮)
+      const geolocateControl = new mapboxgl.GeolocateControl({
+        positionOptions: {
+          enableHighAccuracy: true,
+        },
+        trackUserLocation: true,
+        showUserHeading: true,
+        showAccuracyCircle: true,
+      })
+      map.current.addControl(geolocateControl, 'top-right')
+
+      // Add geocoder search control (地址搜索栏)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const geocoder = new MapboxGeocoder({
+        accessToken: mapboxgl.accessToken as string,
+        mapboxgl: mapboxgl as any,
+        placeholder: 'Search address, city, or ZIP...',
+        // 限制搜索范围到 Texas，提高相关性
+        bbox: [-106.65, 25.84, -93.51, 36.5], // Texas bounding box
+        proximity: {
+          longitude: -96.7970,
+          latitude: 32.7767,
+        }, // 偏向 Dallas 附近的结果
+        countries: 'us',
+        types: 'address,place,postcode,locality,neighborhood',
+        language: 'en',
+        marker: true, // 搜索结果显示标记
+        collapsed: false, // 搜索框默认展开
+      })
+      
+      // Save search result to store for export
+      geocoder.on('result', (e) => {
+        const [lng, lat] = e.result.center
+        setLastSearchedLocation({
+          longitude: lng,
+          latitude: lat,
+          address: e.result.place_name,
+        })
+      })
+      
+      // Clear search result from store
+      geocoder.on('clear', () => {
+        setLastSearchedLocation(null)
+      })
+      
+      map.current.addControl(geocoder, 'top-left')
 
       // Set initial bounds
       map.current.on('load', () => {

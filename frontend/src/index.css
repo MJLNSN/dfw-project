@@ -95,12 +95,205 @@ body {
   border-top-color: var(--border-color) !important;
 }
 
+/* Geocoder (地址搜索栏) 样式 */
+.mapboxgl-ctrl-geocoder {
+  background: var(--background-card) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1) !important;
+  font-family: 'Outfit', system-ui, sans-serif !important;
+  min-width: 320px !important;
+  max-width: 400px !important;
+}
+
+.mapboxgl-ctrl-geocoder--input {
+  color: var(--text-primary) !important;
+  font-size: 14px !important;
+  padding: 12px 40px !important;
+  height: 44px !important;
+}
+
+.mapboxgl-ctrl-geocoder--input::placeholder {
+  color: var(--text-secondary) !important;
+}
+
+.mapboxgl-ctrl-geocoder--input:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.mapboxgl-ctrl-geocoder--icon-search {
+  fill: var(--primary-color) !important;
+  top: 12px !important;
+  left: 12px !important;
+  width: 20px !important;
+  height: 20px !important;
+}
+
+.mapboxgl-ctrl-geocoder--button {
+  background: transparent !important;
+  top: 10px !important;
+  right: 8px !important;
+}
+
+.mapboxgl-ctrl-geocoder--icon-close {
+  fill: var(--text-secondary) !important;
+  width: 16px !important;
+  height: 16px !important;
+}
+
+.mapboxgl-ctrl-geocoder--icon-close:hover {
+  fill: var(--text-primary) !important;
+}
+
+/* Geocoder 搜索结果下拉框 */
+.mapboxgl-ctrl-geocoder .suggestions {
+  background: var(--background-card) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15) !important;
+  margin-top: 4px !important;
+  overflow: hidden !important;
+}
+
+.mapboxgl-ctrl-geocoder .suggestions > li {
+  border-bottom: 1px solid var(--border-color) !important;
+}
+
+.mapboxgl-ctrl-geocoder .suggestions > li:last-child {
+  border-bottom: none !important;
+}
+
+.mapboxgl-ctrl-geocoder .suggestions > li > a {
+  color: var(--text-primary) !important;
+  padding: 12px 16px !important;
+  font-size: 14px !important;
+}
+
+.mapboxgl-ctrl-geocoder .suggestions > .active > a,
+.mapboxgl-ctrl-geocoder .suggestions > li > a:hover {
+  background: rgba(16, 185, 129, 0.1) !important;
+  color: var(--primary-color) !important;
+}
+
+/* Geocoder 搜索结果标记 */
+.mapboxgl-ctrl-geocoder--pin-right > * {
+  top: 10px !important;
+  right: 40px !important;
+}
+
+/* Geolocate (用户定位) 按钮样式 */
+.mapboxgl-ctrl-geolocate {
+  background: var(--background-card) !important;
+}
+
+.mapboxgl-ctrl-geolocate .mapboxgl-ctrl-icon {
+  fill: var(--text-secondary) !important;
+}
+
+.mapboxgl-ctrl-geolocate:hover .mapboxgl-ctrl-icon {
+  fill: var(--primary-color) !important;
+}
+
+.mapboxgl-ctrl-geolocate.mapboxgl-ctrl-geolocate-active .mapboxgl-ctrl-icon {
+  fill: var(--primary-color) !important;
+}
+
+.mapboxgl-ctrl-geolocate.mapboxgl-ctrl-geolocate-waiting .mapboxgl-ctrl-icon {
+  animation: pulse 1.5s ease-in-out infinite !important;
+}
+
+/* 用户位置标记 */
+.mapboxgl-user-location-dot {
+  background: var(--primary-color) !important;
+  border: 2px solid white !important;
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.5) !important;
+}
+
+.mapboxgl-user-location-dot::before {
+  background: var(--primary-color) !important;
+}
+
+.mapboxgl-user-location-accuracy-circle {
+  background: rgba(16, 185, 129, 0.15) !important;
+  border: 1px solid rgba(16, 185, 129, 0.3) !important;
+}
+
+/* Scale (比例尺) 样式 */
+.mapboxgl-ctrl-scale {
+  background: rgba(255, 255, 255, 0.9) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 4px !important;
+  color: var(--text-secondary) !important;
+  font-size: 11px !important;
+  font-weight: 500 !important;
+  padding: 2px 6px !important;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* 搜索结果标记样式 */
+.mapboxgl-marker {
+  cursor: pointer;
+}
+
+/* 让搜索栏在左侧，并避开控制面板 */
+.mapboxgl-ctrl-top-left {
+  top: 12px !important;
+  left: 360px !important; /* 避开左侧控制面板 */
+}
+
+/* 动画 */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Export Modal Geocoder 样式 */
+.export-geocoder .mapboxgl-ctrl-geocoder {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 100% !important;
+  box-shadow: none !important;
+  border: 1px solid var(--border-color) !important;
+}
+
+.export-geocoder .mapboxgl-ctrl-geocoder--input {
+  height: 48px !important;
+  font-size: 15px !important;
+}
+
+.export-geocoder .suggestions {
+  position: absolute !important;
+  width: 100% !important;
+  z-index: 1000 !important;
+}
+
 /* Animation utilities */
 .animate-stagger-1 { animation-delay: 0.1s; }
 .animate-stagger-2 { animation-delay: 0.2s; }
 .animate-stagger-3 { animation-delay: 0.3s; }
 .animate-stagger-4 { animation-delay: 0.4s; }
 .animate-stagger-5 { animation-delay: 0.5s; }
+
+/* Fade in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.2s ease-out forwards;
+}
 
 /* Light glassmorphism */
 @layer utilities {

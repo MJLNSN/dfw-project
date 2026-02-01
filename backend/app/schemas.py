@@ -60,9 +60,31 @@ class SearchRequest(BaseModel):
     offset: int = Field(0, ge=0, description="Offset for pagination")
 
 
+class CenterPoint(BaseModel):
+    """Center point for location-based filtering."""
+    longitude: float = Field(..., ge=-180, le=180, description="Longitude of center point")
+    latitude: float = Field(..., ge=-90, le=90, description="Latitude of center point")
+    address: Optional[str] = Field(None, description="Address label for the center point")
+
+
 class ExportRequest(BaseModel):
-    """Request body for CSV export."""
+    """
+    Request body for CSV export.
+    ST-05: Users export filtered results into a CSV format.
+    """
     filters: Optional[FilterCriteria] = None
+    centerPoint: Optional[CenterPoint] = Field(None, description="Center point for location-based filtering")
+    maxDistance: Optional[float] = Field(None, ge=0.01, le=50, description="Maximum distance in miles (0.01-50)")
+    sortBy: Optional[str] = Field("price_desc", description="Sort by: distance, price_asc, price_desc, size_asc, size_desc")
+    
+    @field_validator('sortBy')
+    @classmethod
+    def validate_sort_by(cls, v):
+        """Validate sort option."""
+        valid_options = ['distance', 'price_asc', 'price_desc', 'size_asc', 'size_desc']
+        if v and v not in valid_options:
+            return 'price_desc'
+        return v
 
 
 class PreferenceCreate(BaseModel):

@@ -48,6 +48,9 @@ def build_parcel_query(
     """
     Build SQL query for fetching parcels with filters.
     Note: County names in database are lowercase (e.g., 'dallas' not 'Dallas')
+    
+    Args:
+        bbox: Bounding box string "west,south,east,north" (longitude,latitude)
     """
     # Query with hex-encoded geometry for parsing
     base_query = """
@@ -69,6 +72,24 @@ def build_parcel_query(
     if access_level == "guest":
         conditions.append("LOWER(county) = :guest_county")
         params["guest_county"] = "dallas"
+    
+    # Apply bbox filter using ST_X and ST_Y for centroid
+    if bbox:
+        try:
+            west, south, east, north = [float(x) for x in bbox.split(',')]
+            # Use centroid coordinates for filtering
+            conditions.append("""
+                public.ST_X(public.ST_Centroid(geom)) >= :bbox_west
+                AND public.ST_X(public.ST_Centroid(geom)) <= :bbox_east
+                AND public.ST_Y(public.ST_Centroid(geom)) >= :bbox_south
+                AND public.ST_Y(public.ST_Centroid(geom)) <= :bbox_north
+            """)
+            params["bbox_west"] = west
+            params["bbox_east"] = east
+            params["bbox_south"] = south
+            params["bbox_north"] = north
+        except (ValueError, AttributeError) as e:
+            logger.warning(f"Invalid bbox format: {bbox}, error: {e}")
     
     # Apply filters
     if filters:
@@ -99,9 +120,6 @@ def build_parcel_query(
             conditions.append("LOWER(county) = ANY(:counties)")
             params["counties"] = lower_counties
     
-    # Note: bbox filtering would require PostGIS functions which aren't available
-    # Skip bbox for now
-    
     # Combine conditions
     if conditions:
         base_query += " AND " + " AND ".join(conditions)
@@ -116,6 +134,7 @@ def build_parcel_query(
 
 def build_count_query(
     filters: Optional[dict] = None,
+    bbox: Optional[str] = None,
     access_level: str = "guest"
 ) -> tuple:
     """Build a count query with the same filters."""
@@ -132,6 +151,23 @@ def build_count_query(
     if access_level == "guest":
         conditions.append("LOWER(county) = :guest_county")
         params["guest_county"] = "dallas"
+    
+    # Apply bbox filter
+    if bbox:
+        try:
+            west, south, east, north = [float(x) for x in bbox.split(',')]
+            conditions.append("""
+                public.ST_X(public.ST_Centroid(geom)) >= :bbox_west
+                AND public.ST_X(public.ST_Centroid(geom)) <= :bbox_east
+                AND public.ST_Y(public.ST_Centroid(geom)) >= :bbox_south
+                AND public.ST_Y(public.ST_Centroid(geom)) <= :bbox_north
+            """)
+            params["bbox_west"] = west
+            params["bbox_east"] = east
+            params["bbox_south"] = south
+            params["bbox_north"] = north
+        except (ValueError, AttributeError):
+            pass
     
     # Apply same filters as main query
     if filters:
@@ -197,12 +233,12 @@ async def get_parcels(
     filters = filters if filters else None
     
     try:
-        # Get count
-        count_query, count_params = build_count_query(filters, access_level)
+        # Get count (no bbox for total count)
+        count_query, count_params = build_count_query(filters, None, access_level)
         count_result = db.execute(text(count_query), count_params).fetchone()
         total = count_result[0] if count_result else 0
         
-        # Get data
+        # Get data (no bbox for GET endpoint - pagination based)
         query, params = build_parcel_query(filters, None, access_level, limit, offset)
         result = db.execute(text(query), params)
         
@@ -275,12 +311,12 @@ async def search_parcels(
             filters["counties"] = request.filters.counties
     
     try:
-        # Get count
-        count_query, count_params = build_count_query(filters, access_level)
+        # Get count for current view (with bbox)
+        count_query, count_params = build_count_query(filters, request.bbox, access_level)
         count_result = db.execute(text(count_query), count_params).fetchone()
         total = count_result[0] if count_result else 0
         
-        # Get data
+        # Get data with bbox filtering
         query, params = build_parcel_query(
             filters, request.bbox, access_level, request.limit, request.offset
         )

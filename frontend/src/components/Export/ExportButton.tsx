@@ -1,62 +1,39 @@
 /**
  * Export to CSV button component
+ * Opens export configuration modal
  */
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import { useAuthStore } from '../../store/authStore'
-import { useFilterStore } from '../../store/filterStore'
-import { exportToCsv, downloadBlob } from '../../services/api'
+import ExportModal from './ExportModal'
 
 export default function ExportButton() {
   const { isAuthenticated } = useAuthStore()
-  const { filters } = useFilterStore()
   const navigate = useNavigate()
-  const [isExporting, setIsExporting] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
-  const handleExport = async () => {
+  const handleClick = () => {
     if (!isAuthenticated) {
       toast.error('Please sign in to export data')
       navigate('/login')
       return
     }
-
-    setIsExporting(true)
-    
-    try {
-      const blob = await exportToCsv(filters)
-      const filename = `properties_export_${new Date().toISOString().split('T')[0]}.csv`
-      downloadBlob(blob, filename)
-      toast.success('Export completed!')
-    } catch (error) {
-      console.error('Export error:', error)
-      toast.error('Export failed. Please try again.')
-    } finally {
-      setIsExporting(false)
-    }
+    setIsModalOpen(true)
   }
 
   return (
-    <button
-      onClick={handleExport}
-      disabled={isExporting}
-      className={`glass rounded-xl p-4 flex items-center gap-3 w-full transition-all animate-fade-in animate-stagger-4 ${
-        isAuthenticated
-          ? 'hover:border-primary-500/50 cursor-pointer'
-          : 'opacity-60 cursor-not-allowed'
-      }`}
-    >
-      <div
-        className={`w-10 h-10 rounded-lg flex items-center justify-center ${
+    <>
+      <button
+        onClick={handleClick}
+        className={`w-full p-3 rounded-lg flex items-center gap-3 transition-all ${
           isAuthenticated
-            ? 'bg-gradient-to-br from-emerald-500 to-emerald-600'
-            : 'bg-gray-200'
+            ? 'bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white cursor-pointer'
+            : 'bg-gray-200 text-gray-500 cursor-not-allowed'
         }`}
       >
-        {isExporting ? (
-          <div className="spinner" />
-        ) : (
-          <svg className="w-5 h-5 text-gray-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <div className="w-8 h-8 rounded-lg flex items-center justify-center bg-white/20">
+          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -64,15 +41,20 @@ export default function ExportButton() {
               d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
             />
           </svg>
-        )}
-      </div>
-      <div className="text-left flex-1">
-        <span className="font-medium text-gray-900">Export CSV</span>
-        <span className="text-xs text-gray-600 block">
-          {isAuthenticated ? 'Download filtered data' : 'Sign in required'}
-        </span>
-      </div>
-    </button>
+        </div>
+        <div className="text-left flex-1">
+          <span className="font-medium">Export CSV</span>
+          <span className="text-xs opacity-80 block">
+            {isAuthenticated ? 'Distance & sorting options' : 'Sign in required'}
+          </span>
+        </div>
+        <svg className="w-5 h-5 opacity-60" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+        </svg>
+      </button>
+
+      {isModalOpen && <ExportModal onClose={() => setIsModalOpen(false)} />}
+    </>
   )
 }
 
