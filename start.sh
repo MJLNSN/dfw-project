@@ -111,6 +111,22 @@ if grep -q "YOUR_PASSWORD" .env 2>/dev/null || grep -q "XXXXXXXXX" .env 2>/dev/n
     echo -e "  ${RED}   Please update DATABASE_URL and COGNITO settings${NC}"
 fi
 
+# Update ALLOWED_ORIGINS to include frontend port
+echo "  Updating ALLOWED_ORIGINS for CORS..."
+if grep -q "^ALLOWED_ORIGINS=" .env; then
+    # Remove old localhost:517x entries and add new one
+    CURRENT_ORIGINS=$(grep "^ALLOWED_ORIGINS=" .env | cut -d'=' -f2-)
+    # Remove any localhost:517x or localhost:3000 entries
+    NEW_ORIGINS=$(echo "$CURRENT_ORIGINS" | sed -E 's|http://localhost:[0-9]+||g' | sed 's/,,*/,/g' | sed 's/^,//;s/,$//')
+    # Add current frontend port and common defaults
+    if [ -n "$NEW_ORIGINS" ]; then
+        sed -i "s|^ALLOWED_ORIGINS=.*|ALLOWED_ORIGINS=http://localhost:$FRONTEND_PORT,http://localhost:3000,http://localhost:5173,$NEW_ORIGINS|" .env
+    else
+        sed -i "s|^ALLOWED_ORIGINS=.*|ALLOWED_ORIGINS=http://localhost:$FRONTEND_PORT,http://localhost:3000,http://localhost:5173|" .env
+    fi
+    echo -e "  ${GREEN}✓ Updated CORS to allow http://localhost:$FRONTEND_PORT${NC}"
+fi
+
 # Start backend
 echo "  Starting uvicorn on port $BACKEND_PORT..."
 uvicorn app.main:app --host 0.0.0.0 --port $BACKEND_PORT --reload &
