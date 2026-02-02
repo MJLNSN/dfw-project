@@ -5,8 +5,8 @@ A full-stack real estate property search and visualization platform for the Dall
 ## Live Demo
 
 - **Frontend**: [https://dfw-project.vercel.app](https://dfw-project.vercel.app)
-- **Backend API**: [https://your-backend-url.com](https://your-backend-url.com)
-- **API Documentation**: [https://your-backend-url.com/docs](https://your-backend-url.com/docs)
+- **Backend API**: [http://140.238.147.72/](http://140.238.147.72/)
+- **API Documentation**: [http://140.238.147.72/docs](http://140.238.147.72/docs)
 
 ## Features
 
