@@ -178,41 +178,6 @@ docker-compose up -d
 # - API Docs: http://localhost:8000/docs
 ```
 
-## Testing the Application
-
-### 1. Open Frontend
-Navigate to http://localhost:5173
-- You should see the map with Dallas County properties
-- Guest banner should be visible at the top
-
-### 2. Test API
-Navigate to http://localhost:8000/docs
-- Interactive Swagger UI documentation
-- Try the `/health` endpoint to verify backend is running
-
-### 3. Test User Registration
-- Click "Get Started" or "Register"
-- Enter email and password (must meet requirements: 8+ chars, uppercase, lowercase, number, special char)
-- Check email for verification code
-- Verify and login
-
-### 4. Test Features
-- ✅ **Map Exploration** (guest mode) - View Dallas County properties
-- ✅ **Property Details** - Click on property markers for details
-- ✅ **Quick Filters** - Use preset filter buttons
-- ✅ **Advanced Filters** (after login) - Custom price/size ranges
-- ✅ **Save Tags** (after login) - Save custom filter combinations
-- ✅ **CSV Export** (after login) - Export filtered results
-
-## Stopping Services
-
-```bash
-# Find and kill processes
-pkill -f "npm run dev"
-pkill -f "uvicorn"
-
-# Or use Ctrl+C in each terminal
-```
 
 ## API Endpoints
 
@@ -421,8 +386,3 @@ uvicorn app.main:app --reload --port 8000
 
 MIT License
 
-## Author
-
-Built as a take-home project for LocateAlpha
-
-# dfw-project
