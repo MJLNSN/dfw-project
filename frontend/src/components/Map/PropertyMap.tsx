@@ -129,9 +129,9 @@ export default function PropertyMap() {
       map.current.addControl(geolocateControl, 'top-right')
 
       // Add geocoder search control (地址搜索栏)
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const geocoder = new MapboxGeocoder({
         accessToken: mapboxgl.accessToken as string,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         mapboxgl: mapboxgl as any,
         placeholder: 'Search address, city, or ZIP...',
         // 限制搜索范围到 Texas，提高相关性
