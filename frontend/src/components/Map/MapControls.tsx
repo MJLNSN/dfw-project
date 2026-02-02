@@ -65,12 +65,12 @@ export default function MapControls() {
     setExpandedSections(prev => {
       const newSet = new Set(prev)
       if (newSet.has(section)) {
-        // 缩小这个部分
+        // Collapse this section
         newSet.delete(section)
       } else {
-        // 展开这个部分
+        // Expand this section
         newSet.add(section)
-        // 如果当前是全局缩小状态,展开这个部分时自动取消全局缩小
+        // If currently in collapsed state, expanding this section auto-cancels global collapse
         if (isCollapsed) {
           setIsCollapsed(false)
         }
@@ -123,10 +123,10 @@ export default function MapControls() {
           ) : (
             <div className="p-4">
               <div className="flex items-center justify-between mb-3">
-                <h3 className="font-semibold text-gray-900">Properties</h3>
+                <h3 className="text-lg font-semibold text-gray-900">Properties</h3>
                 <div className="flex items-center gap-2">
                   <span
-                    className={`text-xs px-2 py-1 rounded-full ${
+                    className={`text-base px-3 py-1 rounded-full ${
                       accessLevel === 'registered'
                         ? 'bg-emerald-500/20 text-emerald-400'
                         : 'bg-amber-500/20 text-amber-400'
@@ -138,16 +138,16 @@ export default function MapControls() {
                     onClick={() => toggleSection('stats')}
                     className="text-gray-400 hover:text-gray-600 transition-colors"
                   >
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                     </svg>
                   </button>
                 </div>
               </div>
-              <div className="text-3xl font-bold text-gradient">
+              <div className="text-5xl font-bold text-gradient">
                 {totalParcels.toLocaleString()}
               </div>
-              <p className="text-sm text-gray-600 mt-1">
+              <p className="text-lg text-gray-600 mt-1">
                 {accessLevel === 'guest'
                   ? 'Register to see all counties'
                   : 'Viewing all DFW counties'}
@@ -189,25 +189,25 @@ export default function MapControls() {
                         : 'bg-gray-100/50 hover:bg-gray-200/50 border-gray-200/50 hover:border-emerald-500/50'
                     }`}
                   >
-                    <span className="text-xl mb-1 block">{preset.icon}</span>
-                    <span className={`text-sm font-medium ${activeQuickFilter === preset.name ? 'text-emerald-700' : 'text-gray-800 group-hover:text-gray-900'}`}>
+                    <span className="text-2xl mb-1 block">{preset.icon}</span>
+                    <span className={`text-base font-medium ${activeQuickFilter === preset.name ? 'text-emerald-700' : 'text-gray-800 group-hover:text-gray-900'}`}>
                       {preset.name}
                     </span>
-                    <span className="text-xs text-gray-500 block">{preset.description}</span>
+                    <span className="text-sm text-gray-500 block">{preset.description}</span>
                   </button>
                 ))}
               </div>
               
               {/* Saved Tags */}
               <div className="mt-3 pt-3 border-t border-gray-200">
-                <div className="text-xs text-gray-500 uppercase tracking-wide mb-2">Your Saved Tags</div>
+                <div className="text-sm text-gray-500 uppercase tracking-wide mb-2">Your Saved Tags</div>
                 {savedPreferences.length > 0 ? (
                   <div className="space-y-2">
                     {/* Tag Selector */}
                     <select
                       value={activePreferenceId || ''}
                       onChange={(e) => handlePresetFilterClick(e.target.value)}
-                      className="w-full p-2 rounded-lg border border-gray-200 bg-white text-sm text-gray-800 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors"
+                      className="w-full p-2 rounded-lg border border-gray-200 bg-white text-base text-gray-800 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors"
                     >
                       <option value="">Select a saved tag...</option>
                       {savedPreferences.map((pref) => (
@@ -220,9 +220,9 @@ export default function MapControls() {
                     {/* Manage Button */}
                     <button
                       onClick={() => setIsManageModalOpen(true)}
-                      className="w-full p-2 rounded-lg border border-gray-200 bg-gray-50 hover:bg-gray-100 text-sm text-gray-700 transition-colors flex items-center justify-center gap-2"
+                      className="w-full p-2 rounded-lg border border-gray-200 bg-gray-50 hover:bg-gray-100 text-base text-gray-700 transition-colors flex items-center justify-center gap-2"
                     >
-                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                       </svg>
@@ -230,7 +230,7 @@ export default function MapControls() {
                     </button>
                   </div>
                 ) : (
-                  <div className="text-xs text-gray-400 italic p-2 bg-gray-50 rounded-lg">
+                  <div className="text-sm text-gray-400 italic p-2 bg-gray-50 rounded-lg">
                     {isAuthenticated 
                       ? 'No saved tags yet. Use Advanced Filters to create one.'
                       : 'Sign in to save custom filter tags.'}
@@ -276,9 +276,9 @@ export default function MapControls() {
                   </svg>
                 </div>
                 <div className="text-left">
-                  <span className="font-medium text-gray-900">Advanced Filters</span>
+                  <span className="font-medium text-gray-900 text-base">Advanced Filters</span>
                   {hasActiveFilters && (
-                    <span className="text-xs text-emerald-600 block">Filters active</span>
+                    <span className="text-sm text-emerald-600 block">Filters active</span>
                   )}
                 </div>
               </div>
@@ -326,7 +326,7 @@ export default function MapControls() {
                   clearFilters()
                   setActiveQuickFilter(null)
                 }}
-                className="text-sm text-gray-600 hover:text-gray-900 transition-colors mt-2"
+                className="text-base text-gray-600 hover:text-gray-900 transition-colors mt-2"
               >
                 Clear all filters
               </button>
@@ -347,7 +347,7 @@ export default function MapControls() {
           ) : (
             <div className="p-4">
               <div className="flex items-center justify-between mb-3">
-                <h3 className="font-semibold text-gray-900">Map Style</h3>
+                <h3 className="text-lg font-semibold text-gray-900">Map Style</h3>
                 <button
                   onClick={() => toggleSection('mapStyle')}
                   className="text-gray-400 hover:text-gray-600 transition-colors"
@@ -362,7 +362,7 @@ export default function MapControls() {
                   <button
                     key={style}
                     onClick={() => setMapStyle(style)}
-                    className={`py-2 px-2 rounded-lg text-xs font-medium transition-all ${
+                    className={`py-2 px-2 rounded-lg text-base font-medium transition-all ${
                       mapStyle === style
                         ? 'bg-emerald-500 text-gray-900'
                         : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
@@ -375,7 +375,7 @@ export default function MapControls() {
               
               {/* Cluster Toggle */}
               <div className="mt-3 flex items-center justify-between">
-                <span className="text-sm text-gray-600">Show clusters</span>
+                <span className="text-base text-gray-600">Show clusters</span>
                 <button
                   onClick={toggleClusters}
                   className={`relative w-11 h-6 rounded-full transition-colors ${

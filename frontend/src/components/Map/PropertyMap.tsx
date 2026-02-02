@@ -108,16 +108,16 @@ export default function PropertyMap() {
       // Add navigation controls (zoom +/-)
       map.current.addControl(new mapboxgl.NavigationControl(), 'top-right')
 
-      // Add scale control (比例尺)
+      // Add scale control
       map.current.addControl(
         new mapboxgl.ScaleControl({
           maxWidth: 150,
-          unit: 'imperial', // 使用英制单位（英里/英尺），适合美国
+          unit: 'imperial', // Use imperial units (miles/feet) for US
         }),
         'bottom-right'
       )
 
-      // Add geolocate control (用户定位按钮)
+      // Add geolocate control
       const geolocateControl = new mapboxgl.GeolocateControl({
         positionOptions: {
           enableHighAccuracy: true,
@@ -128,23 +128,23 @@ export default function PropertyMap() {
       })
       map.current.addControl(geolocateControl, 'top-right')
 
-      // Add geocoder search control (地址搜索栏)
+      // Add geocoder search control
       const geocoder = new MapboxGeocoder({
         accessToken: mapboxgl.accessToken as string,
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         mapboxgl: mapboxgl as any,
         placeholder: 'Search address, city, or ZIP...',
-        // 限制搜索范围到 Texas，提高相关性
+        // Limit search to Texas for better relevance
         bbox: [-106.65, 25.84, -93.51, 36.5], // Texas bounding box
         proximity: {
           longitude: -96.7970,
           latitude: 32.7767,
-        }, // 偏向 Dallas 附近的结果
+        }, // Prioritize Dallas area results
         countries: 'us',
         types: 'address,place,postcode,locality,neighborhood',
         language: 'en',
-        marker: true, // 搜索结果显示标记
-        collapsed: false, // 搜索框默认展开
+        marker: true, // Show marker for search results
+        collapsed: false, // Keep search box expanded by default
       })
       
       // Save search result to store for export

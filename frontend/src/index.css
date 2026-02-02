@@ -95,7 +95,7 @@ body {
   border-top-color: var(--border-color) !important;
 }
 
-/* Geocoder (地址搜索栏) 样式 */
+/* Geocoder (address search bar) styles */
 .mapboxgl-ctrl-geocoder {
   background: var(--background-card) !important;
   border: 1px solid var(--border-color) !important;
@@ -146,7 +146,7 @@ body {
   fill: var(--text-primary) !important;
 }
 
-/* Geocoder 搜索结果下拉框 */
+/* Geocoder search results dropdown */
 .mapboxgl-ctrl-geocoder .suggestions {
   background: var(--background-card) !important;
   border: 1px solid var(--border-color) !important;
@@ -176,13 +176,13 @@ body {
   color: var(--primary-color) !important;
 }
 
-/* Geocoder 搜索结果标记 */
+/* Geocoder search result marker */
 .mapboxgl-ctrl-geocoder--pin-right > * {
   top: 10px !important;
   right: 40px !important;
 }
 
-/* Geolocate (用户定位) 按钮样式 */
+/* Geolocate (user location) button styles */
 .mapboxgl-ctrl-geolocate {
   background: var(--background-card) !important;
 }
@@ -203,7 +203,7 @@ body {
   animation: pulse 1.5s ease-in-out infinite !important;
 }
 
-/* 用户位置标记 */
+/* User location marker */
 .mapboxgl-user-location-dot {
   background: var(--primary-color) !important;
   border: 2px solid white !important;
@@ -219,7 +219,7 @@ body {
   border: 1px solid rgba(16, 185, 129, 0.3) !important;
 }
 
-/* Scale (比例尺) 样式 */
+/* Scale (scale bar) styles */
 .mapboxgl-ctrl-scale {
   background: rgba(255, 255, 255, 0.9) !important;
   border: 1px solid var(--border-color) !important;
@@ -231,18 +231,18 @@ body {
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1) !important;
 }
 
-/* 搜索结果标记样式 */
+/* Search result marker styles */
 .mapboxgl-marker {
   cursor: pointer;
 }
 
-/* 让搜索栏在左侧，并避开控制面板 */
+/* Position search bar on the left, avoiding control panel */
 .mapboxgl-ctrl-top-left {
   top: 12px !important;
-  left: 360px !important; /* 避开左侧控制面板 */
+  left: 360px !important; /* Avoid left control panel */
 }
 
-/* 动画 */
+/* Animation */
 @keyframes pulse {
   0%, 100% {
     opacity: 1;
@@ -252,7 +252,7 @@ body {
   }
 }
 
-/* Export Modal Geocoder 样式 */
+/* Export Modal Geocoder */
 .export-geocoder .mapboxgl-ctrl-geocoder {
   width: 100% !important;
   max-width: 100% !important;
@@ -270,6 +270,49 @@ body {
   position: absolute !important;
   width: 100% !important;
   z-index: 1000 !important;
+}
+
+/* Larger Export Modal Geocoder (2x size) */
+.export-geocoder-large .mapboxgl-ctrl-geocoder {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 100% !important;
+  box-shadow: none !important;
+  border: 2px solid var(--border-color) !important;
+}
+
+.export-geocoder-large .mapboxgl-ctrl-geocoder--input {
+  height: 72px !important;
+  font-size: 20px !important;
+  padding: 12px 60px !important;
+}
+
+.export-geocoder-large .mapboxgl-ctrl-geocoder--icon {
+  width: 40px !important;
+  height: 40px !important;
+  top: 16px !important;
+  left: 12px !important;
+}
+
+.export-geocoder-large .mapboxgl-ctrl-geocoder--button {
+  width: 40px !important;
+  height: 40px !important;
+  top: 16px !important;
+}
+
+.export-geocoder-large .suggestions {
+  position: absolute !important;
+  width: 100% !important;
+  z-index: 1000 !important;
+  font-size: 18px !important;
+}
+
+.export-geocoder-large .mapboxgl-ctrl-geocoder--suggestion-title {
+  font-size: 18px !important;
+}
+
+.export-geocoder-large .mapboxgl-ctrl-geocoder--suggestion-address {
+  font-size: 16px !important;
 }
 
 /* Animation utilities */

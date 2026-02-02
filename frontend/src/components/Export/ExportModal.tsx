@@ -152,21 +152,21 @@ export default function ExportModal({ onClose }: ExportModalProps) {
       onClick={onClose}
     >
       <div 
-        className="bg-white rounded-2xl shadow-2xl max-w-lg w-full max-h-[85vh] overflow-y-auto animate-fade-in"
+        className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto animate-fade-in"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="sticky top-0 bg-gradient-to-r from-emerald-500 to-emerald-600 px-6 py-5 rounded-t-2xl z-10">
+        <div className="sticky top-0 bg-gradient-to-r from-emerald-500 to-emerald-600 px-12 py-10 rounded-t-2xl z-10">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-xl font-bold text-white">Export Properties</h2>
-              <p className="text-emerald-50 text-sm mt-1">Download filtered property data as CSV</p>
+              <h2 className="text-4xl font-bold text-white">Export Properties</h2>
+              <p className="text-emerald-50 text-2xl mt-2">Download filtered property data as CSV</p>
             </div>
             <button
               onClick={onClose}
-              className="text-white/80 hover:text-white transition-colors p-2 hover:bg-white/10 rounded-lg"
+              className="text-white/80 hover:text-white transition-colors p-4 hover:bg-white/10 rounded-lg"
             >
-              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
@@ -174,60 +174,60 @@ export default function ExportModal({ onClose }: ExportModalProps) {
         </div>
 
         {/* Content */}
-        <div className="px-6 py-5 space-y-5">
+        <div className="px-12 py-10 space-y-8">
           {/* Current Property Filters Summary */}
-          <div className="bg-gray-50 rounded-xl p-4">
-            <h4 className="text-sm font-semibold text-gray-700 mb-3 flex items-center gap-2">
-              <span>🏠</span> Property Filters
+          <div className="bg-gray-50 rounded-xl p-8">
+            <h4 className="text-2xl font-semibold text-gray-700 mb-6 flex items-center gap-3">
+              <span className="text-3xl">🏠</span> Property Filters
             </h4>
-            <div className="space-y-2 text-sm">
+            <div className="space-y-4 text-xl">
               {filters.priceRange?.min || filters.priceRange?.max ? (
-                <div className="flex items-center gap-2 text-gray-700 bg-white px-3 py-2 rounded-lg">
-                  <span>💰</span>
+                <div className="flex items-center gap-3 text-gray-700 bg-white px-6 py-4 rounded-lg">
+                  <span className="text-2xl">💰</span>
                   <span>
                     ${filters.priceRange.min?.toLocaleString() || '0'} - ${filters.priceRange.max?.toLocaleString() || '∞'}
                   </span>
                 </div>
               ) : null}
               {filters.sizeRange?.min || filters.sizeRange?.max ? (
-                <div className="flex items-center gap-2 text-gray-700 bg-white px-3 py-2 rounded-lg">
-                  <span>📐</span>
+                <div className="flex items-center gap-3 text-gray-700 bg-white px-6 py-4 rounded-lg">
+                  <span className="text-2xl">📐</span>
                   <span>
                     {filters.sizeRange.min?.toLocaleString() || '0'} - {filters.sizeRange.max?.toLocaleString() || '∞'} sq ft
                   </span>
                 </div>
               ) : null}
               {filters.counties && filters.counties.length > 0 ? (
-                <div className="flex items-center gap-2 text-gray-700 bg-white px-3 py-2 rounded-lg">
-                  <span>🏘️</span>
+                <div className="flex items-center gap-3 text-gray-700 bg-white px-6 py-4 rounded-lg">
+                  <span className="text-2xl">🏘️</span>
                   <span>{filters.counties.join(', ')}</span>
                 </div>
               ) : null}
               {!hasFilters && (
-                <p className="text-gray-500 italic text-xs">No property filters applied</p>
+                <p className="text-gray-500 italic text-lg">No property filters applied</p>
               )}
             </div>
           </div>
 
           {/* Location Filter Toggle */}
-          <div className="bg-blue-50 rounded-xl p-4 border border-blue-200">
+          <div className="bg-blue-50 rounded-xl p-8 border-2 border-blue-200">
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <span className="text-2xl">📍</span>
+              <div className="flex items-center gap-4">
+                <span className="text-4xl">📍</span>
                 <div>
-                  <h4 className="font-semibold text-gray-900">Location Filter</h4>
-                  <p className="text-xs text-gray-600">Filter by distance from a specific location</p>
+                  <h4 className="font-semibold text-gray-900 text-2xl">Location Filter</h4>
+                  <p className="text-lg text-gray-600">Filter by distance from a specific location</p>
                 </div>
               </div>
               <button
                 onClick={() => setUseLocationFilter(!useLocationFilter)}
-                className={`relative w-12 h-6 rounded-full transition-colors ${
+                className={`relative w-20 h-10 rounded-full transition-colors ${
                   useLocationFilter ? 'bg-emerald-500' : 'bg-gray-300'
                 }`}
               >
                 <span
-                  className={`absolute top-1 w-4 h-4 rounded-full bg-white transition-transform shadow ${
-                    useLocationFilter ? 'left-7' : 'left-1'
+                  className={`absolute top-1.5 w-7 h-7 rounded-full bg-white transition-transform shadow ${
+                    useLocationFilter ? 'left-12' : 'left-1.5'
                   }`}
                 />
               </button>
@@ -235,26 +235,26 @@ export default function ExportModal({ onClose }: ExportModalProps) {
 
             {/* Location Filter Options */}
             {useLocationFilter && (
-              <div className="mt-4 space-y-4 pt-4 border-t border-blue-200">
+              <div className="mt-6 space-y-6 pt-6 border-t-2 border-blue-200">
                 {/* Address Search */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-xl font-medium text-gray-700 mb-3">
                     Center Point
                     {lastSearchedLocation && (
-                      <span className="ml-2 text-xs text-emerald-600">(from map search)</span>
+                      <span className="ml-2 text-lg text-emerald-600">(from map search)</span>
                     )}
                   </label>
-                  <div ref={geocoderContainerRef} className="export-geocoder" />
+                  <div ref={geocoderContainerRef} className="export-geocoder export-geocoder-large" />
                   {centerPoint && (
-                    <div className="mt-2 p-2 bg-emerald-50 rounded-lg flex items-center gap-2 text-sm">
-                      <span className="text-emerald-500">✓</span>
+                    <div className="mt-3 p-4 bg-emerald-50 rounded-lg flex items-center gap-3 text-xl">
+                      <span className="text-emerald-500 text-2xl">✓</span>
                       <span className="flex-1 truncate text-emerald-800">{centerPoint.address}</span>
                       <button
                         onClick={() => {
                           setCenterPoint(null)
                           if (geocoderRef.current) geocoderRef.current.clear()
                         }}
-                        className="text-emerald-500 hover:text-emerald-700"
+                        className="text-emerald-500 hover:text-emerald-700 text-2xl"
                       >
                         ✕
                       </button>
@@ -264,10 +264,10 @@ export default function ExportModal({ onClose }: ExportModalProps) {
 
                 {/* Distance Input */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-xl font-medium text-gray-700 mb-3">
                     Max Distance (miles)
                   </label>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-3">
                     <input
                       type="number"
                       min="0.01"
@@ -280,12 +280,12 @@ export default function ExportModal({ onClose }: ExportModalProps) {
                           setMaxDistance(val)
                         }
                       }}
-                      className="flex-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                      className="flex-1 p-4 text-xl border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                       placeholder="1"
                     />
-                    <span className="text-gray-500 text-sm">miles</span>
+                    <span className="text-gray-500 text-xl">miles</span>
                   </div>
-                  <p className="text-xs text-gray-500 mt-1">
+                  <p className="text-lg text-gray-500 mt-2">
                     0.01 mi = 16m | 0.1 mi = 161m | 1 mi = 1.6km
                   </p>
                 </div>
@@ -295,13 +295,13 @@ export default function ExportModal({ onClose }: ExportModalProps) {
 
           {/* Sort Options */}
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
-              <span>🔄</span> Sort Results By
+            <label className="block text-xl font-semibold text-gray-700 mb-4 flex items-center gap-3">
+              <span className="text-2xl">🔄</span> Sort Results By
             </label>
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as typeof sortBy)}
-              className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-sm"
+              className="w-full p-5 text-xl border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
             >
               {SORT_OPTIONS.map((option) => (
                 <option
@@ -316,9 +316,9 @@ export default function ExportModal({ onClose }: ExportModalProps) {
           </div>
 
           {/* Export Info */}
-          <div className="bg-amber-50 rounded-xl p-3 border border-amber-200">
-            <p className="text-xs text-amber-800 flex items-start gap-2">
-              <svg className="w-4 h-4 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+          <div className="bg-amber-50 rounded-xl p-6 border-2 border-amber-200">
+            <p className="text-lg text-amber-800 flex items-start gap-3">
+              <svg className="w-8 h-8 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
               </svg>
               <span>
@@ -329,18 +329,18 @@ export default function ExportModal({ onClose }: ExportModalProps) {
         </div>
 
         {/* Footer */}
-        <div className="sticky bottom-0 bg-white border-t border-gray-200 px-6 py-4 rounded-b-2xl">
-          <div className="flex gap-3">
+        <div className="sticky bottom-0 bg-white border-t-2 border-gray-200 px-12 py-8 rounded-b-2xl">
+          <div className="flex gap-4">
             <button
               onClick={onClose}
-              className="flex-1 py-3 px-4 border border-gray-300 text-gray-700 font-semibold rounded-xl hover:bg-gray-50 transition-all"
+              className="flex-1 py-5 px-6 text-xl border-2 border-gray-300 text-gray-700 font-semibold rounded-xl hover:bg-gray-50 transition-all"
             >
               Cancel
             </button>
             <button
               onClick={handleExport}
               disabled={isExporting || (useLocationFilter && !centerPoint)}
-              className="flex-1 py-3 px-4 bg-gradient-to-r from-emerald-500 to-emerald-600 text-white font-bold rounded-xl hover:from-emerald-600 hover:to-emerald-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg"
+              className="flex-1 py-5 px-6 text-xl bg-gradient-to-r from-emerald-500 to-emerald-600 text-white font-bold rounded-xl hover:from-emerald-600 hover:to-emerald-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3 shadow-lg"
             >
               {isExporting ? (
                 <>
@@ -349,7 +349,7 @@ export default function ExportModal({ onClose }: ExportModalProps) {
                 </>
               ) : (
                 <>
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                   </svg>
                   Download CSV
@@ -358,7 +358,7 @@ export default function ExportModal({ onClose }: ExportModalProps) {
             </button>
           </div>
           {useLocationFilter && !centerPoint && (
-            <p className="text-xs text-amber-600 text-center mt-2">
+            <p className="text-lg text-amber-600 text-center mt-3">
               ⚠️ Please select a location to enable export
             </p>
           )}
